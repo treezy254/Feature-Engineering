@@ -1,0 +1,147 @@
+Feature Engineering
+---
+
+- determine which features are the most important with mutual information.
+
+- Invent new features in several real-worl problem domains
+
+- Encode high-cardinality categoricals with a target encoding
+
+- create segmentation features with k-means clustering
+- decompose a dataset's variation into features with principal component analysis
+
+Benefits
+---
+
+- Improve a model's predictive performance
+- reduce computational or data needs
+- improve interpretability of the results.
+
+
+----
+
+Mutual Information
+--
+
+::A great first step is to contruct  a ranking with a feature utility metric, a function measuring associations between a feature and the target.
+
+:: Then you can choose a smaller set of the most useful features to develop initially and have more confidence that your time will be well spent.
+
+:: Mutual information is a lot like correlation in that it measures a relationship between two quantities.
+
+:: The advantage of mutual information is that it can detect any kind of relationship, while correlation only detects linear relationships.
+
+:: Mutual information describes relationships in terms of uncertainity.
+
+:: The mutual infor between two quantities is a measure of the extent to which knowledge of one quantity reduces uncertainity about the other.
+
+When MI is zero, the quantities are independent: neither can tell you anything about the other.
+
+note::
+	- MI can help understand the relative potential of a features as a preditor of the target, considered by itself
+	- It's possible for a feature to be very informative when interacting with other features. MI cant detect interactions between features. It's a univariate metrics.
+
+	- The actual usefuleness of a features depends on the model you use with it.
+
+	
+
+---
+
+Creating Features
+--
+
+Mathematical
+	ratios
+	logs
+Counts
+
+tips on discovering new features
+--
+
+	:: understand the features. 
+	:: Research the problem domain to acquire domain knowledge.
+	:: Study previous work.
+	:: Use data visualization through the feature engineering process.
+
+
+tips on creating features
+--
+
+	:: Linear models learn sums and differences naturally, but can't learn anything more complex
+	:: Ratios seem to be difficult for most models to learn. Ratio combinations often lead to some easy performance gains.
+	:: Linear models and neural nets generally do better with normalized features.
+	:: Tree models can leaarn to approximate almost any combination of features.
+	:: Counts are especially helpful for tree models.
+
+
+---
+
+Clustering with K-Means
+--
+Applied to a single real-valued feature, clustering acts like a traditional 'binning' or 'discretization' transform. On multiple features, its like 'multi-dimensional binning' (sometime called vector quantization).
+
+K-Means Clustering
+--
+
+measures similarity using ordinary straight line distances (Euclidean). 
+- It creates clusters by placing a number of points, called centroids, inside the feature-space.
+
+- You could imagine each centroid capturing points through a sequence of radiating circles.
+- When sets of circles from competing centroids overlap they form a line. The result is whats called a 'Voronoi tessalation'
+
+
+---
+
+Principal Component Analysis
+--
+
+PCA is a partitioning of the vraiation in the data. PCA is typically applied to standardized data, in which "variation" means "correlation"... unlike in unstandardized data where "variation" means "covariance".
+
+There are two ways you could use PCA for feature enginnering:
+
+	:: By using a descriptive technique. Since the components tell you about the variation, you could compute the MI scores for the components and see what kind of variation is most predictive to your target.
+
+
+	:: The second way is to use the components themselves as features. Because the components expose the variational structure of the data directly, they can often be more informative than the original features.
+
+	below are some use cases:
+
+		Dimensionality reduction
+		Anomaly detection
+		Noise reduction
+		Decorrelation
+
+
+PCA Best Practices
+- PCA only works with numeric features, like continous quantities or counts
+- PCA is sensitive to scale. Its good practive to standardize your data before applying PCA, unless you know you have good reason not to.
+
+- Consider removing or contraining outliers, since they can have an undue influence on the results.
+
+---
+
+Target Encoding
+
+--
+
+Also known as supervised feature engineering technique, its a method of encoding categories as numbers through using target to create the encoding.
+
+A target encoding is any kind of encoding that replaces a feature's categories with some number derived from the target.
+
+
+Smoothing
+--
+
+Target encoding rare categories can make overfitting more likely.
+
+A solution to these problems is to add smoothing.
+- The idea is to blend the in-category average with the overall average. Rare categories get less weight on their vategory average, while missing categories just get the overall average.
+
+
+Use cases for Target Encoding are:
+	:: High-cardinality features
+	:: Domain-motivated features
+
+------------
+
+standardize data
